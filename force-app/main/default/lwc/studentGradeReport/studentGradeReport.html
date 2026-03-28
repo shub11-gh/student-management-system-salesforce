@@ -1,0 +1,115 @@
+<!-- File: studentGradeReport.html -->
+<template>
+    <lightning-card title="Grade Report" icon-name="standard:education">
+
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading grades..."></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error State -->
+        <template if:true={hasError}>
+            <div class="slds-p-around_medium">
+                <lightning-formatted-text value={errorMessage}></lightning-formatted-text>
+            </div>
+        </template>
+
+        <!-- Empty State -->
+        <template if:true={isEmpty}>
+            <div class="slds-p-around_medium slds-align_absolute-center">
+                <p style="color: #706e6b;">No assessment scores found for this student.</p>
+            </div>
+        </template>
+
+        <!-- Grade Data — one section per course -->
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- CGPA Summary Banner -->
+                <div class="cgpa-banner slds-m-bottom_medium">
+                    <div class="cgpa-label">Overall CGPA</div>
+                    <div class="cgpa-value">{cgpa}</div>
+                    <div class="cgpa-label">out of 10.00</div>
+                </div>
+
+                <!-- One card per course -->
+                <template for:each={courseGrades} for:item="course">
+                    <div key={course.courseName} class="course-card slds-m-bottom_medium">
+
+                        <!-- Course Header -->
+                        <div class="course-header">
+                            <div class="course-title">{course.courseName}</div>
+                            <div class="course-meta">
+                                Section: {course.sectionCode} &nbsp;|&nbsp; {course.semester}
+                            </div>
+                            <div class="course-avg-row">
+                                <span class="course-avg-label">Course Average</span>
+                                <span class="course-avg-value">{course.courseAverage}%</span>
+                                <span class={gradeClass}>{course.courseGrade}</span>
+                            </div>
+                        </div>
+
+                        <!-- Assessment Rows Table -->
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th>Assessment</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Marks</th>
+                                    <th>Weightage</th>
+                                    <th>Percentage</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={course.assessments} for:item="assessment">
+                                    <tr key={assessment.assessmentName}>
+                                        <td>{assessment.assessmentName}</td>
+                                        <td>
+                                            <lightning-badge label={assessment.assessmentType}>
+                                            </lightning-badge>
+                                        </td>
+                                        <td>{assessment.assessmentDate}</td>
+                                        <td>
+                                            {assessment.marksObtained} / {assessment.maximumMarks}
+                                        </td>
+                                        <td>{assessment.weightage}%</td>
+                                        <td>
+                                            <!-- Progress bar for percentage -->
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar-fill" style={assessment.progressStyle}>
+                                                </div>
+                                                <span class="progress-label">
+                                                    {assessment.percentage}%
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="grade-badge">{assessment.grade}</span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+
+                        <!-- Remarks Section -->
+                        <template for:each={course.assessments} for:item="assessment">
+                            <template if:true={assessment.hasRemarks}>
+                                <div key={assessment.assessmentName} class="remarks-row">
+                                    <span class="remarks-label">{assessment.assessmentName}:</span>
+                                    <span class="remarks-text">{assessment.remarks}</span>
+                                </div>
+                            </template>
+                        </template>
+
+                    </div>
+                </template>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

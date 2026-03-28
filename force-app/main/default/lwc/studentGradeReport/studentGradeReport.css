@@ -1,0 +1,81 @@
+/* File: studentGradeReport.css */
+.cgpa-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f3f2f2;
+    border-radius: 8px;
+    padding: 16px 20px;
+    border-left: 4px solid #1565c0;
+}
+.cgpa-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1565c0;
+}
+.cgpa-label {
+    font-size: 13px;
+    color: #706e6b;
+}
+.course-card {
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.course-header {
+    background: #f3f2f2;
+    padding: 12px 16px;
+    border-bottom: 1px solid #dddbda;
+}
+.course-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #032d60;
+}
+.course-meta {
+    font-size: 12px;
+    color: #706e6b;
+    margin-top: 2px;
+}
+.course-avg-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+.course-avg-label { font-size: 13px; color: #706e6b; }
+.course-avg-value { font-size: 15px; font-weight: 600; color: #032d60; }
+.grade-badge {
+    background: #e8f4fd;
+    color: #1565c0;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.progress-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 120px;
+}
+.progress-bar-fill {
+    height: 6px;
+    border-radius: 3px;
+    flex: 1;
+    max-width: 80px;
+    transition: width 0.3s ease;
+}
+.progress-label {
+    font-size: 12px;
+    color: #444;
+    min-width: 38px;
+}
+.remarks-row {
+    padding: 6px 16px;
+    font-size: 12px;
+    border-top: 1px solid #f3f2f2;
+    background: #fffbe6;
+}
+.remarks-label { font-weight: 600; margin-right: 6px; color: #706e6b; }
+.remarks-text  { color: #444; }
