@@ -189,3 +189,46 @@
     font-size: 13px;
     margin: 12px;
 }
+
+/* ── Mobile Responsive ───────────────────────── */
+@media (max-width: 480px) {
+
+    /* Stat grid: 2x2 on mobile instead of 4x1 */
+    .app-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .app-stat-value { font-size: 20px; }
+    .app-stat-label { font-size: 10px; }
+
+    /* Card header stacks vertically */
+    .app-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+    .app-card-title { font-size: 14px; }
+
+    /* Ring moves inline with warning badge */
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Breakdown row wraps tightly */
+    .app-breakdown-row {
+        gap: 10px;
+        padding: 8px 14px;
+    }
+    .app-breakdown-label { font-size: 11px; }
+
+    /* Table scrollable horizontally */
+    .app-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .app-table { min-width: 420px; }
+
+    /* Progress bar narrower */
+    .app-progress-track { width: 60px; }
+}

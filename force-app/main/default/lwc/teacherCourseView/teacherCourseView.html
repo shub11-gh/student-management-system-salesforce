@@ -68,72 +68,76 @@
                         <div class="section-divider">
                             <span class="section-tag">Students</span>
                         </div>
-                        <table class="app-table">
-                            <thead>
-                                <tr>
-                                    <th>Student ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Attendance</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template for:each={course.students} for:item="student">
-                                    <tr key={student.studentId}>
-                                        <td>{student.studentId}</td>
-                                        <td>{student.studentName}</td>
-                                        <td>{student.studentEmail}</td>
-                                        <td>
-                                            <div class="progress-bar-inline">
-                                                <div class="app-progress-track">
-                                                    <div class="app-progress-fill" style={student.progressStyle}>
-                                                    </div>
-                                                </div>
-                                                <span class="progress-label">
-                                                    {student.attendancePct}%
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class={student.attendanceClass}>
-                                                {student.attendanceStatus}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-
-                        <!-- Recent Sessions Section -->
-                        <div class="section-divider">
-                            <span class="section-tag">Recent Sessions</span>
-                        </div>
-                        <template if:true={course.hasSessions}>
+                        <div class="app-table-wrapper">
                             <table class="app-table">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Classroom</th>
-                                        <th>Topics Covered</th>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Attendance</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template for:each={course.recentSessions} for:item="session">
-                                        <tr key={session.sessionDate}>
-                                            <td>{session.sessionDate}</td>
-                                            <td>{session.classroomNumber}</td>
-                                            <td>{session.topicsCovered}</td>
+                                    <template for:each={course.students} for:item="student">
+                                        <tr key={student.studentId}>
+                                            <td>{student.studentId}</td>
+                                            <td>{student.studentName}</td>
+                                            <td>{student.studentEmail}</td>
                                             <td>
-                                                <span class={session.statusClass}>
-                                                    {session.sessionStatus}
+                                                <div class="progress-bar-inline">
+                                                    <div class="app-progress-track">
+                                                        <div class="app-progress-fill" style={student.progressStyle}>
+                                                        </div>
+                                                    </div>
+                                                    <span class="progress-label">
+                                                        {student.attendancePct}%
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class={student.attendanceClass}>
+                                                    {student.attendanceStatus}
                                                 </span>
                                             </td>
                                         </tr>
                                     </template>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Recent Sessions Section -->
+                        <div class="section-divider">
+                            <span class="section-tag">Recent Sessions</span>
+                        </div>
+                        <template if:true={course.hasSessions}>
+                            <div class="app-table-wrapper">
+                                <table class="app-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Classroom</th>
+                                            <th>Topics Covered</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={course.recentSessions} for:item="session">
+                                            <tr key={session.sessionDate}>
+                                                <td>{session.sessionDate}</td>
+                                                <td>{session.classroomNumber}</td>
+                                                <td>{session.topicsCovered}</td>
+                                                <td>
+                                                    <span class={session.statusClass}>
+                                                        {session.sessionStatus}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
                         </template>
                         <template if:false={course.hasSessions}>
                             <div class="app-empty">No sessions recorded yet.</div>
