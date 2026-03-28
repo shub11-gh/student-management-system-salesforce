@@ -1,0 +1,149 @@
+<!-- teacherCourseView.html -->
+<template>
+    <lightning-card title="My Courses" icon-name="standard:teacher">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading courses..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={isEmpty}>
+            <div class="app-empty">No courses assigned to this teacher.</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Summary Stats -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{totalCourses}</div>
+                        <div class="app-stat-label">Courses</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{totalStudents}</div>
+                        <div class="app-stat-label">Total Students</div>
+                    </div>
+                    <div class="app-stat app-stat-accent">
+                        <div class="app-stat-value">{totalSessions}</div>
+                        <div class="app-stat-label">Recent Sessions</div>
+                    </div>
+                    <div class="app-stat app-stat-danger">
+                        <div class="app-stat-value">{totalBelowThreshold}</div>
+                        <div class="app-stat-label">Low Attendance</div>
+                    </div>
+                </div>
+
+                <!-- One card per course section -->
+                <template for:each={courseData} for:item="course">
+                    <div key={course.sectionId} class="app-card">
+
+                        <!-- Dark Header -->
+                        <div class="app-card-header">
+                            <div class="header-left">
+                                <div class="app-card-title">{course.courseName}</div>
+                                <div class="app-card-subtitle">
+                                    {course.courseId} &nbsp;|&nbsp;
+                                    Section: {course.sectionCode} &nbsp;|&nbsp;
+                                    {course.semester} &nbsp;|&nbsp;
+                                    {course.academicYear}
+                                </div>
+                            </div>
+                            <div class="header-right">
+                                <div class="capacity-pill">
+                                    <span class="capacity-count">{course.enrolledCount}</span>
+                                    <span class="capacity-sep">/</span>
+                                    <span class="capacity-max">{course.maxCapacity}</span>
+                                    <span class="capacity-label">enrolled</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Students Section -->
+                        <div class="section-divider">
+                            <span class="section-tag">Students</span>
+                        </div>
+                        <table class="app-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Attendance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={course.students} for:item="student">
+                                    <tr key={student.studentId}>
+                                        <td>{student.studentId}</td>
+                                        <td>{student.studentName}</td>
+                                        <td>{student.studentEmail}</td>
+                                        <td>
+                                            <div class="progress-bar-inline">
+                                                <div class="app-progress-track">
+                                                    <div class="app-progress-fill" style={student.progressStyle}>
+                                                    </div>
+                                                </div>
+                                                <span class="progress-label">
+                                                    {student.attendancePct}%
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class={student.attendanceClass}>
+                                                {student.attendanceStatus}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+
+                        <!-- Recent Sessions Section -->
+                        <div class="section-divider">
+                            <span class="section-tag">Recent Sessions</span>
+                        </div>
+                        <template if:true={course.hasSessions}>
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Classroom</th>
+                                        <th>Topics Covered</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={course.recentSessions} for:item="session">
+                                        <tr key={session.sessionDate}>
+                                            <td>{session.sessionDate}</td>
+                                            <td>{session.classroomNumber}</td>
+                                            <td>{session.topicsCovered}</td>
+                                            <td>
+                                                <span class={session.statusClass}>
+                                                    {session.sessionStatus}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        <template if:false={course.hasSessions}>
+                            <div class="app-empty">No sessions recorded yet.</div>
+                        </template>
+
+                    </div>
+                </template>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

@@ -1,60 +1,54 @@
-<!-- File: studentGradeReport.html -->
+<!-- studentGradeReport.html -->
 <template>
     <lightning-card title="Grade Report" icon-name="standard:education">
 
-        <!-- Loading Spinner -->
         <template if:true={isLoading}>
             <div class="slds-align_absolute-center slds-p-around_large">
                 <lightning-spinner alternative-text="Loading grades..."></lightning-spinner>
             </div>
         </template>
 
-        <!-- Error State -->
         <template if:true={hasError}>
-            <div class="slds-p-around_medium">
-                <lightning-formatted-text value={errorMessage}></lightning-formatted-text>
-            </div>
+            <div class="app-error">{errorMessage}</div>
         </template>
 
-        <!-- Empty State -->
         <template if:true={isEmpty}>
-            <div class="slds-p-around_medium slds-align_absolute-center">
-                <p style="color: #706e6b;">No assessment scores found for this student.</p>
-            </div>
+            <div class="app-empty">No assessment scores found for this student.</div>
         </template>
 
-        <!-- Grade Data — one section per course -->
         <template if:true={hasData}>
             <div class="slds-p-horizontal_medium slds-p-bottom_medium">
 
-                <!-- CGPA Summary Banner -->
-                <div class="cgpa-banner slds-m-bottom_medium">
-                    <div class="cgpa-label">Overall CGPA</div>
-                    <div class="cgpa-value">{cgpa}</div>
-                    <div class="cgpa-label">out of 10.00</div>
+                <!-- CGPA Banner -->
+                <div class="app-cgpa-banner">
+                    <div>
+                        <div class="app-cgpa-label">Overall CGPA</div>
+                        <div class="app-cgpa-value">{cgpa}</div>
+                        <div class="app-cgpa-label">out of 10.00</div>
+                    </div>
                 </div>
 
                 <!-- One card per course -->
                 <template for:each={courseGrades} for:item="course">
-                    <div key={course.courseName} class="course-card slds-m-bottom_medium">
+                    <div key={course.courseName} class="app-card">
 
-                        <!-- Course Header -->
-                        <div class="course-header">
-                            <div class="course-title">{course.courseName}</div>
-                            <div class="course-meta">
+                        <!-- Dark Header -->
+                        <div class="app-card-header">
+                            <div class="app-card-title">{course.courseName}</div>
+                            <div class="app-card-subtitle">
                                 Section: {course.sectionCode} &nbsp;|&nbsp; {course.semester}
                             </div>
                             <div class="course-avg-row">
                                 <span class="course-avg-label">Course Average</span>
                                 <span class="course-avg-value">{course.courseAverage}%</span>
-                                <span class={gradeClass}>{course.courseGrade}</span>
+                                <span class="app-badge">{course.courseGrade}</span>
                             </div>
                         </div>
 
-                        <!-- Assessment Rows Table -->
-                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+                        <!-- Assessment Table -->
+                        <table class="app-table">
                             <thead>
-                                <tr class="slds-line-height_reset">
+                                <tr>
                                     <th>Assessment</th>
                                     <th>Type</th>
                                     <th>Date</th>
@@ -69,8 +63,9 @@
                                     <tr key={assessment.assessmentName}>
                                         <td>{assessment.assessmentName}</td>
                                         <td>
-                                            <lightning-badge label={assessment.assessmentType}>
-                                            </lightning-badge>
+                                            <span class="type-badge">
+                                                {assessment.assessmentType}
+                                            </span>
                                         </td>
                                         <td>{assessment.assessmentDate}</td>
                                         <td>
@@ -78,9 +73,10 @@
                                         </td>
                                         <td>{assessment.weightage}%</td>
                                         <td>
-                                            <!-- Progress bar for percentage -->
-                                            <div class="progress-bar-container">
-                                                <div class="progress-bar-fill" style={assessment.progressStyle}>
+                                            <div class="progress-bar-inline">
+                                                <div class="app-progress-track">
+                                                    <div class="app-progress-fill" style={assessment.progressStyle}>
+                                                    </div>
                                                 </div>
                                                 <span class="progress-label">
                                                     {assessment.percentage}%
@@ -88,14 +84,14 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="grade-badge">{assessment.grade}</span>
+                                            <span class="app-badge">{assessment.grade}</span>
                                         </td>
                                     </tr>
                                 </template>
                             </tbody>
                         </table>
 
-                        <!-- Remarks Section -->
+                        <!-- Remarks -->
                         <template for:each={course.assessments} for:item="assessment">
                             <template if:true={assessment.hasRemarks}>
                                 <div key={assessment.assessmentName} class="remarks-row">

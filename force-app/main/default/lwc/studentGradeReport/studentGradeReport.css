@@ -1,81 +1,159 @@
-/* File: studentGradeReport.css */
-.cgpa-banner {
+/* studentGradeReport.css */
+
+/* ── CGPA Banner ─────────────────────────────── */
+.app-cgpa-banner {
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: #f3f2f2;
-    border-radius: 8px;
+    gap: 16px;
+    background: #1C1917;
+    border-radius: 12px;
     padding: 16px 20px;
-    border-left: 4px solid #1565c0;
+    margin-bottom: 16px;
+    border-left: 4px solid #D4500A;
 }
-.cgpa-value {
-    font-size: 28px;
+.app-cgpa-value {
+    font-size: 30px;
     font-weight: 700;
-    color: #1565c0;
+    color: #F97316;
 }
-.cgpa-label {
-    font-size: 13px;
-    color: #706e6b;
-}
-.course-card {
-    border: 1px solid #dddbda;
-    border-radius: 8px;
-    overflow: hidden;
-}
-.course-header {
-    background: #f3f2f2;
-    padding: 12px 16px;
-    border-bottom: 1px solid #dddbda;
-}
-.course-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #032d60;
-}
-.course-meta {
+.app-cgpa-label {
     font-size: 12px;
-    color: #706e6b;
-    margin-top: 2px;
+    color: #A8A29E;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ── Course Card ─────────────────────────────── */
+.app-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #F3F0ED;
+    margin-bottom: 16px;
+    background: #ffffff;
+}
+.app-card-header {
+    background: #1C1917;
+    padding: 14px 20px;
+}
+.app-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+}
+.app-card-subtitle {
+    font-size: 12px;
+    color: #F97316;
+    margin-top: 3px;
 }
 .course-avg-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 8px;
+    margin-top: 10px;
 }
-.course-avg-label { font-size: 13px; color: #706e6b; }
-.course-avg-value { font-size: 15px; font-weight: 600; color: #032d60; }
-.grade-badge {
-    background: #e8f4fd;
-    color: #1565c0;
-    border-radius: 4px;
-    padding: 2px 8px;
+.course-avg-label { font-size: 12px; color: #A8A29E; }
+.course-avg-value { font-size: 16px; font-weight: 700; color: #F97316; }
+
+/* ── Grade Badge ─────────────────────────────── */
+.app-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
 }
-.progress-bar-container {
+.app-badge-grade-O  { background: #F0FDF4; color: #166534; }
+.app-badge-grade-Ap { background: #FDF0E8; color: #C2460A; }
+.app-badge-grade-A  { background: #FDF0E8; color: #C2460A; }
+.app-badge-grade-Bp { background: #EFF6FF; color: #1D4ED8; }
+.app-badge-grade-B  { background: #EFF6FF; color: #1D4ED8; }
+.app-badge-grade-C  { background: #F1F5F9; color: #475569; }
+.app-badge-grade-F  { background: #FEE2E2; color: #B91C1C; }
+
+/* ── Assessment Type Badge ───────────────────── */
+.type-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #F3F0ED;
+    color: #78716C;
+}
+
+/* ── Progress Bar ────────────────────────────── */
+.progress-bar-inline {
     display: flex;
     align-items: center;
     gap: 8px;
-    width: 120px;
 }
-.progress-bar-fill {
+.app-progress-track {
+    height: 6px;
+    background: #F3F0ED;
+    border-radius: 3px;
+    overflow: hidden;
+    width: 80px;
+}
+.app-progress-fill {
     height: 6px;
     border-radius: 3px;
-    flex: 1;
-    max-width: 80px;
-    transition: width 0.3s ease;
+    transition: width 0.4s ease;
 }
 .progress-label {
     font-size: 12px;
-    color: #444;
+    color: #78716C;
     min-width: 38px;
+    white-space: nowrap;
 }
+
+/* ── Table ───────────────────────────────────── */
+.app-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.app-table th {
+    text-align: left;
+    padding: 9px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #78716C;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #F3F0ED;
+    background: #FAFAF9;
+}
+.app-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #F3F0ED;
+    color: #1C1917;
+    vertical-align: middle;
+}
+.app-table tr:last-child td { border-bottom: none; }
+.app-table tr:hover td { background: #FAFAF9; }
+
+/* ── Remarks ─────────────────────────────────── */
 .remarks-row {
-    padding: 6px 16px;
+    padding: 8px 16px;
     font-size: 12px;
-    border-top: 1px solid #f3f2f2;
-    background: #fffbe6;
+    background: #FFFBF7;
+    border-top: 1px solid #F3F0ED;
 }
-.remarks-label { font-weight: 600; margin-right: 6px; color: #706e6b; }
-.remarks-text  { color: #444; }
+.remarks-label { font-weight: 600; color: #D4500A; margin-right: 6px; }
+.remarks-text  { color: #78716C; }
+
+/* ── Empty / Error ───────────────────────────── */
+.app-empty {
+    text-align: center;
+    padding: 32px;
+    color: #78716C;
+    font-size: 14px;
+}
+.app-error {
+    background: #FEE2E2;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #B91C1C;
+    font-size: 13px;
+    margin: 12px;
+}

@@ -1,0 +1,128 @@
+<!-- attendanceDashboard.html -->
+<template>
+    <lightning-card title="Attendance Dashboard" icon-name="standard:event">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={isEmpty}>
+            <div class="app-empty">No attendance records found for this student.</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Summary Stats -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{totalCourses}</div>
+                        <div class="app-stat-label">Courses</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{totalSessionsAll}</div>
+                        <div class="app-stat-label">Total Sessions</div>
+                    </div>
+                    <div class="app-stat app-stat-accent">
+                        <div class="app-stat-value">{overallPercentage}%</div>
+                        <div class="app-stat-label">Overall Attendance</div>
+                    </div>
+                    <div class="app-stat app-stat-danger">
+                        <div class="app-stat-value">{belowThresholdCount}</div>
+                        <div class="app-stat-label">Below 75%</div>
+                    </div>
+                </div>
+
+                <!-- One block per course -->
+                <template for:each={courseData} for:item="course">
+                    <div key={course.courseName} class="app-card">
+
+                        <!-- Header -->
+                        <div class="app-card-header">
+                            <div>
+                                <div class="app-card-title">{course.courseName}</div>
+                                <div class="app-card-subtitle">
+                                    Section: {course.sectionCode} &nbsp;|&nbsp; {course.semester}
+                                </div>
+                            </div>
+                            <div class="header-right">
+                                <template if:true={course.isBelowThreshold}>
+                                    <span class="app-badge-warning">Below 75%</span>
+                                </template>
+                                <div class="app-ring">
+                                    <span class="app-ring-value">{course.attendancePercentage}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Breakdown -->
+                        <div class="app-breakdown-row">
+                            <div class="app-breakdown-item">
+                                <span class="app-dot app-dot-present"></span>
+                                <span class="app-breakdown-label">Present</span>
+                                <span class="app-breakdown-count">{course.presentCount}</span>
+                            </div>
+                            <div class="app-breakdown-item">
+                                <span class="app-dot app-dot-absent"></span>
+                                <span class="app-breakdown-label">Absent</span>
+                                <span class="app-breakdown-count">{course.absentCount}</span>
+                            </div>
+                            <div class="app-breakdown-item">
+                                <span class="app-dot app-dot-late"></span>
+                                <span class="app-breakdown-label">Late</span>
+                                <span class="app-breakdown-count">{course.lateCount}</span>
+                            </div>
+                            <div class="app-breakdown-item">
+                                <span class="app-dot app-dot-excused"></span>
+                                <span class="app-breakdown-label">Excused</span>
+                                <span class="app-breakdown-count">{course.excusedCount}</span>
+                            </div>
+                            <div class="app-breakdown-item">
+                                <span class="app-breakdown-label">Total</span>
+                                <span class="app-breakdown-count">{course.totalSessions}</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="app-progress-track">
+                            <div class="app-progress-fill" style={course.barStyle}></div>
+                        </div>
+
+                        <!-- Session Table -->
+                        <table class="app-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Topics Covered</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={course.sessions} for:item="session">
+                                    <tr key={session.sessionDate}>
+                                        <td>{session.sessionDate}</td>
+                                        <td>{session.topicsCovered}</td>
+                                        <td>
+                                            <span class={session.statusClass}>
+                                                {session.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </template>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>
