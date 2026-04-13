@@ -1,0 +1,129 @@
+<!-- courseOfferingDetail.html -->
+<template>
+    <lightning-card title="Course Offering Overview" icon-name="standard:contract">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Stat Grid -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{offeringData.totalSections}</div>
+                        <div class="app-stat-label">Sections</div>
+                    </div>
+                    <div class="app-stat app-stat-accent">
+                        <div class="app-stat-value">{offeringData.totalStudents}</div>
+                        <div class="app-stat-label">Students</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{offeringData.totalAssessments}</div>
+                        <div class="app-stat-label">Assessments</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{offeringData.semester}</div>
+                        <div class="app-stat-label">Semester</div>
+                    </div>
+                </div>
+
+                <!-- Coordinator Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div>
+                            <div class="app-card-title">Course Coordinator</div>
+                            <div class="app-card-subtitle">
+                                {offeringData.courseName} &nbsp;|&nbsp;
+                                {offeringData.academicYear}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coordinator-body">
+                        <div class="coord-row">
+                            <span class="coord-label">Name</span>
+                            <span class="coord-value">{offeringData.coordinatorName}</span>
+                        </div>
+                        <div class="coord-row">
+                            <span class="coord-label">Department</span>
+                            <span class="coord-value">{offeringData.coordinatorDept}</span>
+                        </div>
+                        <div class="coord-row">
+                            <span class="coord-label">Email</span>
+                            <span class="coord-value coord-email">
+                                {offeringData.coordinatorEmail}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sections Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Sections</div>
+                        <span class="pill">{offeringData.totalSections} total</span>
+                    </div>
+                    <div class="app-table-wrapper">
+                        <table class="app-table">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Enrolled</th>
+                                    <th>Capacity</th>
+                                    <th>Fill Rate</th>
+                                    <th>Avg Attendance</th>
+                                    <th>Assessments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={offeringData.sections} for:item="section">
+                                    <tr key={section.sectionId}>
+                                        <td>
+                                            <span class="section-badge">
+                                                {section.sectionCode}
+                                            </span>
+                                        </td>
+                                        <td>{section.enrolledCount}</td>
+                                        <td>{section.maxCapacity}</td>
+                                        <td>
+                                            <div class="progress-bar-inline">
+                                                <div class="app-progress-track">
+                                                    <div class="app-progress-fill" style={section.capacityStyle}>
+                                                    </div>
+                                                </div>
+                                                <span class="progress-label">
+                                                    {section.capacityPct}%
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="progress-bar-inline">
+                                                <div class="app-progress-track">
+                                                    <div class="app-progress-fill" style={section.attendanceStyle}>
+                                                    </div>
+                                                </div>
+                                                <span class="progress-label">
+                                                    {section.avgAttendance}%
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>{section.assessmentCount}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

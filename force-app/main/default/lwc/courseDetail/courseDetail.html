@@ -1,0 +1,102 @@
+<!-- courseDetail.html -->
+<template>
+    <lightning-card title="Course Overview" icon-name="standard:knowledge">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Stat Grid -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{courseData.totalOfferings}</div>
+                        <div class="app-stat-label">Offerings</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{courseData.totalSections}</div>
+                        <div class="app-stat-label">Sections</div>
+                    </div>
+                    <div class="app-stat app-stat-accent">
+                        <div class="app-stat-value">{courseData.totalStudents}</div>
+                        <div class="app-stat-label">Students</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{courseData.courseCode}</div>
+                        <div class="app-stat-label">Course ID</div>
+                    </div>
+                </div>
+
+                <!-- One card per offering -->
+                <template for:each={courseData.offerings} for:item="offering">
+                    <div key={offering.offeringId} class="app-card">
+
+                        <!-- Dark Header -->
+                        <div class="app-card-header">
+                            <div>
+                                <div class="app-card-title">
+                                    {offering.academicYear} &nbsp;—&nbsp; {offering.semester}
+                                </div>
+                                <div class="app-card-subtitle">
+                                    Coordinator: {offering.coordinator}
+                                </div>
+                            </div>
+                            <div class="section-count-pill">
+                                {offering.sections.length} sections
+                            </div>
+                        </div>
+
+                        <!-- Sections Table -->
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Section</th>
+                                        <th>Enrolled</th>
+                                        <th>Capacity</th>
+                                        <th>Fill Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={offering.sections} for:item="section">
+                                        <tr key={section.sectionId}>
+                                            <td>
+                                                <span class="section-code-badge">
+                                                    {section.sectionCode}
+                                                </span>
+                                            </td>
+                                            <td>{section.enrolledCount}</td>
+                                            <td>{section.maxCapacity}</td>
+                                            <td>
+                                                <div class="progress-bar-inline">
+                                                    <div class="app-progress-track">
+                                                        <div class="app-progress-fill" style={section.capacityStyle}>
+                                                        </div>
+                                                    </div>
+                                                    <span class="progress-label">
+                                                        {section.capacityPct}%
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </template>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

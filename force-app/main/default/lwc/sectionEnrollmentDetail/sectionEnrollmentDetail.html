@@ -1,0 +1,202 @@
+<!-- sectionEnrollmentDetail.html -->
+<template>
+    <lightning-card title="Section Overview" icon-name="standard:groups">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Stat Grid -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{sectionData.enrolledCount}</div>
+                        <div class="app-stat-label">Enrolled</div>
+                    </div>
+                    <div class="app-stat app-stat-accent">
+                        <div class="app-stat-value">{sectionData.maxCapacity}</div>
+                        <div class="app-stat-label">Capacity</div>
+                    </div>
+                    <div class="app-stat">
+                        <div class="app-stat-value">{sectionData.completedSessions}</div>
+                        <div class="app-stat-label">Sessions Done</div>
+                    </div>
+                    <div class="app-stat app-stat-danger">
+                        <div class="app-stat-value">{sectionData.belowThreshold}</div>
+                        <div class="app-stat-label">Low Attendance</div>
+                    </div>
+                </div>
+
+                <!-- Section Info Banner -->
+                <div class="info-banner">
+                    <div class="info-item">
+                        <span class="info-label">Course</span>
+                        <span class="info-value">{sectionData.courseName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Section</span>
+                        <span class="info-value">{sectionData.sectionCode}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Semester</span>
+                        <span class="info-value">{sectionData.semester}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Year</span>
+                        <span class="info-value">{sectionData.academicYear}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Coordinator</span>
+                        <span class="info-value">{sectionData.coordinator}</span>
+                    </div>
+                </div>
+
+                <!-- Students Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Enrolled Students</div>
+                        <span class="header-pill">{sectionData.enrolledCount} students</span>
+                    </div>
+                    <div class="app-table-wrapper">
+                        <table class="app-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>CGPA</th>
+                                    <th>Attendance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={sectionData.students} for:item="student">
+                                    <tr key={student.junctionId}>
+                                        <td>{student.studentCode}</td>
+                                        <td>{student.studentName}</td>
+                                        <td>{student.studentEmail}</td>
+                                        <td>
+                                            <span class="cgpa-value">
+                                                {student.cgpa}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="progress-bar-inline">
+                                                <div class="app-progress-track">
+                                                    <div class="app-progress-fill" style={student.attendanceStyle}>
+                                                    </div>
+                                                </div>
+                                                <span class="progress-label">
+                                                    {student.attendancePct}%
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class={student.attendanceClass}>
+                                                {student.attendanceStatus}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Assessments Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Assessments</div>
+                        <span class="header-pill">
+                            {sectionData.assessmentCount} total
+                        </span>
+                    </div>
+                    <template if:true={hasAssessments}>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Max Marks</th>
+                                        <th>Weightage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={sectionData.assessments} for:item="assessment">
+                                        <tr key={assessment.assessmentId}>
+                                            <td>{assessment.assessmentName}</td>
+                                            <td>
+                                                <span class="type-badge">
+                                                    {assessment.assessmentType}
+                                                </span>
+                                            </td>
+                                            <td>{assessment.assessmentDate}</td>
+                                            <td>{assessment.maximumMarks}</td>
+                                            <td>{assessment.weightage}%</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasAssessments}>
+                        <div class="app-empty">No assessments created yet.</div>
+                    </template>
+                </div>
+
+                <!-- Sessions Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Recent Sessions</div>
+                        <span class="header-pill">
+                            {sectionData.completedSessions} completed
+                        </span>
+                    </div>
+                    <template if:true={hasSessions}>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Classroom</th>
+                                        <th>Topics Covered</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={sectionData.sessions} for:item="session">
+                                        <tr key={session.sessionId}>
+                                            <td>{session.sessionDate}</td>
+                                            <td>{session.classroomNumber}</td>
+                                            <td>{session.topicsCovered}</td>
+                                            <td>
+                                                <span class={session.statusClass}>
+                                                    {session.sessionStatus}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasSessions}>
+                        <div class="app-empty">No sessions recorded yet.</div>
+                    </template>
+                </div>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

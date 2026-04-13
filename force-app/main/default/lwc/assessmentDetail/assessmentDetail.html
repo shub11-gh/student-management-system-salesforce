@@ -1,0 +1,160 @@
+<!-- assessmentDetail.html -->
+<template>
+    <lightning-card title="Assessment Overview" icon-name="standard:task">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Stat Grid -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{assessmentData.totalScored}</div>
+                        <div class="app-stat-label">Scored</div>
+                    </div>
+                    <div class="app-stat app-stat-accent">
+                        <div class="app-stat-value">{assessmentData.classAverage}</div>
+                        <div class="app-stat-label">Class Average</div>
+                    </div>
+                    <div class="app-stat app-stat-success">
+                        <div class="app-stat-value">{assessmentData.passCount}</div>
+                        <div class="app-stat-label">Passed</div>
+                    </div>
+                    <div class="app-stat app-stat-danger">
+                        <div class="app-stat-value">{assessmentData.failCount}</div>
+                        <div class="app-stat-label">Failed</div>
+                    </div>
+                </div>
+
+                <!-- Assessment Info Banner -->
+                <div class="info-banner">
+                    <div class="info-item">
+                        <span class="info-label">Course</span>
+                        <span class="info-value">{assessmentData.courseName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Section</span>
+                        <span class="info-value">{assessmentData.sectionCode}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Type</span>
+                        <span class="info-value">{assessmentData.assessmentType}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Max Marks</span>
+                        <span class="info-value">{assessmentData.maximumMarks}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Weightage</span>
+                        <span class="info-value">{assessmentData.weightage}%</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date</span>
+                        <span class="info-value">{assessmentData.assessmentDate}</span>
+                    </div>
+                </div>
+
+                <!-- Class Average Progress Bar -->
+                <div class="avg-bar-card">
+                    <div class="avg-bar-header">
+                        <span class="avg-bar-label">Class Average</span>
+                        <span class="avg-bar-value">
+                            {assessmentData.classAverage} / {assessmentData.maximumMarks}
+                            &nbsp;({assessmentData.avgPercentage}%)
+                        </span>
+                    </div>
+                    <div class="app-progress-track avg-track">
+                        <div class="app-progress-fill" style={assessmentData.avgStyle}>
+                        </div>
+                    </div>
+                    <div class="marks-range">
+                        <span>Lowest: {assessmentData.lowestMark}</span>
+                        <span>Highest: {assessmentData.highestMark}</span>
+                    </div>
+                </div>
+
+                <!-- Score Distribution Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Score Distribution</div>
+                        <span class="header-pill">
+                            Ranked by marks
+                        </span>
+                    </div>
+                    <template if:true={hasScores}>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Marks</th>
+                                        <th>Score</th>
+                                        <th>Grade</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={assessmentData.scores} for:item="score">
+                                        <tr key={score.scoreId} class={score.rowClass}>
+                                            <td>
+                                                <span class="rank-badge">
+                                                    #{score.rank}
+                                                </span>
+                                            </td>
+                                            <td>{score.studentCode}</td>
+                                            <td>
+                                                {score.studentName}
+                                                <template if:true={score.isTopPerformer}>
+                                                    <span class="top-badge">Top</span>
+                                                </template>
+                                            </td>
+                                            <td>
+                                                {score.marksObtained} /
+                                                {assessmentData.maximumMarks}
+                                            </td>
+                                            <td>
+                                                <div class="progress-bar-inline">
+                                                    <div class="app-progress-track">
+                                                        <div class="app-progress-fill" style={score.scoreStyle}>
+                                                        </div>
+                                                    </div>
+                                                    <span class="progress-label">
+                                                        {score.percentage}%
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class={score.gradeClass}>
+                                                    {score.grade}
+                                                </span>
+                                            </td>
+                                            <td class="remarks-cell">
+                                                {score.remarks}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasScores}>
+                        <div class="app-empty">No scores entered yet.</div>
+                    </template>
+                </div>
+
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

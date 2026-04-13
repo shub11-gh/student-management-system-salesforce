@@ -1,0 +1,141 @@
+/* assessmentDetail.css */
+
+/* ── Stat Grid ───────────────────────────────── */
+.app-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.app-stat         { background: #1C1917; border-radius: 10px; padding: 14px; text-align: center; }
+.app-stat-accent  { background: #D4500A; }
+.app-stat-success { background: #15803D; }
+.app-stat-danger  { background: #B91C1C; }
+.app-stat-value   { font-size: 22px; font-weight: 700; color: #ffffff; }
+.app-stat-label   { font-size: 11px; color: #F97316; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.app-stat-accent  .app-stat-label { color: #FDE8D8; }
+.app-stat-success .app-stat-label { color: #BBF7D0; }
+.app-stat-danger  .app-stat-label { color: #FECACA; }
+
+/* ── Info Banner ─────────────────────────────── */
+.info-banner {
+    display: flex;
+    flex-wrap: wrap;
+    background: #1C1917;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    flex: 1;
+    min-width: 100px;
+}
+.info-item:last-child { border-right: none; }
+.info-label { font-size: 10px; color: #78716C; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.info-value { font-size: 13px; font-weight: 600; color: #F97316; }
+
+/* ── Average Bar Card ────────────────────────── */
+.avg-bar-card {
+    background: #1C1917;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+}
+.avg-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.avg-bar-label { font-size: 12px; color: #A8A29E; text-transform: uppercase; letter-spacing: 0.05em; }
+.avg-bar-value { font-size: 14px; font-weight: 600; color: #F97316; }
+.avg-track     { width: 100%; margin: 0; }
+.marks-range   { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #78716C; }
+
+/* ── Card ────────────────────────────────────── */
+.app-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #F3F0ED;
+    margin-bottom: 16px;
+    background: #ffffff;
+}
+.app-card-header {
+    background: #1C1917;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.app-card-title { font-size: 15px; font-weight: 600; color: #ffffff; }
+.header-pill {
+    background: rgba(255,255,255,0.1);
+    color: #F97316;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ── Rank Badge ──────────────────────────────── */
+.rank-badge {
+    background: #1C1917;
+    color: #F97316;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ── Top Performer Badge ─────────────────────── */
+.top-badge {
+    background: #D4500A;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 1px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+/* ── Grade Badges ────────────────────────────── */
+.grade-high { background: #FDF0E8; color: #C2460A; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.grade-mid  { background: #EFF6FF; color: #1D4ED8; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.grade-low  { background: #FEE2E2; color: #B91C1C; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+/* ── Table ───────────────────────────────────── */
+.app-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.app-table         { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 560px; }
+.app-table th      { text-align: left; padding: 9px 14px; font-size: 11px; font-weight: 600; color: #78716C; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #F3F0ED; background: #FAFAF9; }
+.app-table td      { padding: 10px 14px; border-bottom: 1px solid #F3F0ED; color: #1C1917; vertical-align: middle; }
+.app-table tr:last-child td { border-bottom: none; }
+.app-table tr:hover td      { background: #FAFAF9; }
+.remarks-cell      { font-size: 12px; color: #78716C; max-width: 160px; }
+
+/* ── Progress Bar ────────────────────────────── */
+.progress-bar-inline { display: flex; align-items: center; gap: 8px; }
+.app-progress-track  { height: 6px; background: #F3F0ED; border-radius: 3px; overflow: hidden; width: 70px; }
+.app-progress-fill   { height: 6px; border-radius: 3px; transition: width 0.4s ease; }
+.progress-label      { font-size: 12px; color: #78716C; min-width: 36px; }
+
+/* ── Empty / Error ───────────────────────────── */
+.app-empty { text-align: center; padding: 24px; color: #78716C; font-size: 13px; }
+.app-error { background: #FEE2E2; border-radius: 8px; padding: 12px 16px; color: #B91C1C; font-size: 13px; margin: 12px; }
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 480px) {
+    .app-stat-grid      { grid-template-columns: repeat(2, 1fr); }
+    .app-stat-value     { font-size: 18px; }
+    .info-banner        { flex-direction: column; }
+    .info-item          { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .info-item:last-child { border-bottom: none; }
+    .avg-bar-header     { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .app-card-header    { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .app-progress-track { width: 50px; }
+    .progress-label     { font-size: 11px; min-width: 30px; }
+}
