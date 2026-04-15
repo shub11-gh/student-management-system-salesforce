@@ -1,3 +1,157 @@
+<!-- classroomSessionDetail.html -->
 <template>
-    
+    <lightning-card title="Session Overview" icon-name="standard:event">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Stat Grid -->
+                <div class="app-stat-grid">
+                    <div class="app-stat">
+                        <div class="app-stat-value">{sessionData.totalStudents}</div>
+                        <div class="app-stat-label">Total</div>
+                    </div>
+                    <div class="app-stat app-stat-success">
+                        <div class="app-stat-value">{sessionData.presentCount}</div>
+                        <div class="app-stat-label">Present</div>
+                    </div>
+                    <div class="app-stat app-stat-danger">
+                        <div class="app-stat-value">{sessionData.absentCount}</div>
+                        <div class="app-stat-label">Absent</div>
+                    </div>
+                    <div class="app-stat app-stat-warning">
+                        <div class="app-stat-value">{sessionData.lateCount}</div>
+                        <div class="app-stat-label">Late</div>
+                    </div>
+                </div>
+
+                <!-- Session Info Banner -->
+                <div class="info-banner">
+                    <div class="info-item">
+                        <span class="info-label">Course</span>
+                        <span class="info-value">{sessionData.courseName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Section</span>
+                        <span class="info-value">{sessionData.sectionCode}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Classroom</span>
+                        <span class="info-value">{sessionData.classroomNumber}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date</span>
+                        <span class="info-value">{sessionData.sessionDate}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status</span>
+                        <span class={sessionData.statusClass}>
+                            {sessionData.sessionStatus}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Topics Covered -->
+                <div class="topics-card">
+                    <div class="topics-label">Topics Covered</div>
+                    <div class="topics-value">{sessionData.topicsCovered}</div>
+                </div>
+
+                <!-- Attendance Summary Bar -->
+                <div class="attendance-summary-card">
+                    <div class="attendance-summary-header">
+                        <span class="attendance-summary-label">Session Attendance</span>
+                        <span class="attendance-summary-value">
+                            {sessionData.presentCount} / {sessionData.totalStudents}
+                            &nbsp;({sessionData.attendancePct}%)
+                        </span>
+                    </div>
+                    <div class="app-progress-track summary-track">
+                        <div class="app-progress-fill" style={sessionData.attendanceStyle}>
+                        </div>
+                    </div>
+                    <!-- Breakdown dots -->
+                    <div class="breakdown-row">
+                        <div class="breakdown-item">
+                            <span class="dot dot-present"></span>
+                            <span class="breakdown-label">Present</span>
+                            <span class="breakdown-count">{sessionData.presentCount}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="dot dot-absent"></span>
+                            <span class="breakdown-label">Absent</span>
+                            <span class="breakdown-count">{sessionData.absentCount}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="dot dot-late"></span>
+                            <span class="breakdown-label">Late</span>
+                            <span class="breakdown-count">{sessionData.lateCount}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="dot dot-excused"></span>
+                            <span class="breakdown-label">Excused</span>
+                            <span class="breakdown-count">{sessionData.excusedCount}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Table -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Student Attendance</div>
+                        <span class="header-pill">
+                            {sessionData.totalStudents} students
+                        </span>
+                    </div>
+                    <template if:true={hasAttendance}>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={sessionData.attendance} for:item="record">
+                                        <tr key={record.attendanceId}>
+                                            <td>{record.studentCode}</td>
+                                            <td>{record.studentName}</td>
+                                            <td>
+                                                <span class={record.statusClass}>
+                                                    {record.status}
+                                                </span>
+                                            </td>
+                                            <td class="remarks-cell">
+                                                {record.remarks}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasAttendance}>
+                        <div class="app-empty">
+                            No attendance records found for this session.
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+        </template>
+
+    </lightning-card>
 </template>
