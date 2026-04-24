@@ -1,1 +1,205 @@
-/* attendanceRecordView styles */
+/* attendanceRecordView.css */
+
+/* ── Hero Card ───────────────────────────────── */
+.hero-card {
+    background: #1C1917;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.hero-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.student-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #D4500A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+.hero-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+.hero-code {
+    font-size: 12px;
+    color: #78716C;
+    margin-top: 2px;
+}
+.hero-right { flex-shrink: 0; }
+
+/* ── Attendance Status Badges ────────────────── */
+.badge-present { background: #FDF0E8; color: #C2460A; padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.badge-absent  { background: #FEE2E2; color: #B91C1C; padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.badge-late    { background: #FEF3C7; color: #92400E; padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.badge-excused { background: #F1F5F9; color: #475569; padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.badge-good    { background: #FDF0E8; color: #C2460A; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-low     { background: #FEE2E2; color: #B91C1C; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+/* ── Attendance Bar Card ─────────────────────── */
+.attendance-bar-card {
+    background: #1C1917;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+}
+.bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 12px;
+}
+.bar-title    { font-size: 13px; font-weight: 600; color: #ffffff; }
+.bar-subtitle { font-size: 11px; color: #78716C; margin-top: 3px; }
+.bar-right    { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.bar-pct      { font-size: 22px; font-weight: 700; color: #F97316; }
+.app-progress-track {
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+}
+.app-progress-fill {
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+.threshold-note {
+    font-size: 11px;
+    color: #78716C;
+    margin-top: 8px;
+    text-align: right;
+}
+
+/* ── Session Details Card ────────────────────── */
+.app-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #F3F0ED;
+    margin-bottom: 16px;
+    background: #ffffff;
+}
+.app-card-header {
+    background: #1C1917;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.app-card-title { font-size: 15px; font-weight: 600; color: #ffffff; }
+.session-status-badge {
+    background: rgba(255,255,255,0.1);
+    color: #F97316;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ── Detail Grid ─────────────────────────────── */
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+}
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px;
+    border-bottom: 1px solid #F3F0ED;
+    border-right: 1px solid #F3F0ED;
+}
+.detail-item:nth-child(even) { border-right: none; }
+.detail-item:nth-last-child(-n+2) { border-bottom: none; }
+.detail-label {
+    font-size: 10px;
+    color: #78716C;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+}
+.detail-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1C1917;
+}
+
+/* ── Topics Card ─────────────────────────────── */
+.topics-card {
+    background: #FFFBF7;
+    border: 1px solid #F3F0ED;
+    border-left: 4px solid #D4500A;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+}
+.topics-label {
+    font-size: 10px;
+    color: #78716C;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+}
+.topics-value {
+    font-size: 14px;
+    color: #1C1917;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* ── Remarks Card ────────────────────────────── */
+.remarks-card {
+    background: #FAFAF9;
+    border: 1px solid #F3F0ED;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+}
+.remarks-label {
+    font-size: 10px;
+    color: #78716C;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+}
+.remarks-value {
+    font-size: 14px;
+    color: #1C1917;
+    line-height: 1.6;
+}
+
+/* ── Error ───────────────────────────────────── */
+.app-error {
+    background: #FEE2E2;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #B91C1C;
+    font-size: 13px;
+    margin: 12px;
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 480px) {
+    .hero-card    { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .hero-right   { align-self: flex-start; }
+    .bar-header   { flex-direction: column; }
+    .bar-right    { align-items: flex-start; flex-direction: row; gap: 10px; }
+    .detail-grid  { grid-template-columns: 1fr; }
+    .detail-item  { border-right: none; border-bottom: 1px solid #F3F0ED; }
+    .detail-item:last-child { border-bottom: none; }
+    .app-card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+}

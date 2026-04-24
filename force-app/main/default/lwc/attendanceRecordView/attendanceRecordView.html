@@ -1,3 +1,116 @@
+<!-- attendanceRecordView.html -->
 <template>
-    
+    <lightning-card title="Attendance Record" icon-name="standard:event_log">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Student + Status Hero Card -->
+                <div class="hero-card">
+                    <div class="hero-left">
+                        <div class="student-avatar">
+                            {studentInitials}
+                        </div>
+                        <div class="hero-info">
+                            <div class="hero-name">{attendanceData.studentName}</div>
+                            <div class="hero-code">{attendanceData.studentCode}</div>
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <span class={attendanceData.statusClass}>
+                            {attendanceData.status}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Overall Attendance Bar -->
+                <div class="attendance-bar-card">
+                    <div class="bar-header">
+                        <div>
+                            <div class="bar-title">Overall Course Attendance</div>
+                            <div class="bar-subtitle">
+                                {attendanceData.courseName} — Section
+                                {attendanceData.sectionCode}
+                            </div>
+                        </div>
+                        <div class="bar-right">
+                            <span class="bar-pct">
+                                {attendanceData.overallAttendancePct}%
+                            </span>
+                            <span class={attendanceData.attendanceStatusClass}>
+                                {attendanceData.attendanceStatus}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="app-progress-track">
+                        <div class="app-progress-fill" style={attendanceData.attendanceStyle}>
+                        </div>
+                    </div>
+                    <div class="threshold-note">
+                        Minimum required: 75%
+                    </div>
+                </div>
+
+                <!-- Session Details Card -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Session Details</div>
+                        <span class="session-status-badge">
+                            {attendanceData.sessionStatus}
+                        </span>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Session</span>
+                            <span class="detail-value">
+                                {attendanceData.sessionName}
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Date</span>
+                            <span class="detail-value">
+                                {attendanceData.sessionDate}
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Classroom</span>
+                            <span class="detail-value">
+                                {attendanceData.classroomNumber}
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Semester</span>
+                            <span class="detail-value">
+                                {attendanceData.semester}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topics Card -->
+                <div class="topics-card">
+                    <div class="topics-label">Topics Covered</div>
+                    <div class="topics-value">{attendanceData.topicsCovered}</div>
+                </div>
+
+                <!-- Remarks Card -->
+                <div class="remarks-card">
+                    <div class="remarks-label">Remarks</div>
+                    <div class="remarks-value">{attendanceData.remarks}</div>
+                </div>
+
+            </div>
+        </template>
+
+    </lightning-card>
 </template>
