@@ -1,0 +1,155 @@
+/* globalSearch.css */
+
+/* ── Search Box ──────────────────────────────── */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid rgb(34, 34, 34);
+    padding: 10px 16px;
+    gap: 10px;
+    margin-bottom: 6px;
+    position: relative;
+}
+.search-icon { flex-shrink: 0; opacity: 0.5; --sds-c-icon-color-foreground-default: #888483;}
+.search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #161616;
+    caret-color: #D4500A;
+}
+.search-input::placeholder { color: #888483; }
+.search-spinner { flex-shrink: 0; }
+.clear-btn {
+    background: none;
+    border: none;
+    color: #888483;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 4px;
+    flex-shrink: 0;
+}
+.clear-btn:hover { color: #F97316; }
+
+/* ── Hint & Summary ──────────────────────────── */
+.search-hint {
+    font-size: 11px;
+    color: #161616;
+    margin-bottom: 16px;
+    padding-left: 4px;
+}
+.results-summary {
+    font-size: 12px;
+    color: #888483;
+    margin-bottom: 12px;
+    padding-left: 4px;
+}
+.no-results {
+    text-align: center;
+    padding: 24px;
+    color: #888483;
+    font-size: 14px;
+    background: #FAFAF9;
+    border-radius: 12px;
+}
+
+/* ── Result Group ────────────────────────────── */
+.result-group { margin-bottom: 16px; }
+.group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.group-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888483;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+.group-count {
+    background: #F3F0ED;
+    color: #888483;
+    border-radius: 20px;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ── Result Card ─────────────────────────────── */
+.result-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 0.5px solid #F3F0ED;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+.result-card:hover {
+    border-color: #D4500A;
+    background: #FFFBF7;
+}
+.result-card:last-child { margin-bottom: 0; }
+
+/* ── Avatars ─────────────────────────────────── */
+.result-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+.result-avatar-student { background: #D4500A; }
+.result-avatar-teacher { background: #1C1917; }
+.result-avatar-course  { background: #15803D; }
+
+/* ── Result Body ─────────────────────────────── */
+.result-body { flex: 1; min-width: 0; }
+.result-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1C1917;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.result-meta {
+    font-size: 12px;
+    color: #888483;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.result-sub {
+    font-size: 11px;
+    color: #D4500A;
+    margin-top: 2px;
+}
+.result-arrow {
+    font-size: 20px;
+    color: #D4500A;
+    font-weight: 300;
+    flex-shrink: 0;
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 480px) {
+    .result-meta { font-size: 11px; }
+    .result-name { font-size: 13px; }
+    .result-avatar { width: 34px; height: 34px; font-size: 12px; }
+}

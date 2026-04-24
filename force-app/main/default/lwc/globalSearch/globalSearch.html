@@ -1,0 +1,129 @@
+<!-- globalSearch.html -->
+<template>
+    <lightning-card title="Search" icon-name="utility:search">
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+            <!-- Search Input -->
+            <div class="search-box">
+                <div class="search-icon">
+                    <lightning-icon icon-name="utility:search" size="x-small" alternative-text="Search">
+                    </lightning-icon>
+                </div>
+                <input type="text" class="search-input" placeholder="Search students, teachers, courses..."
+                    value={searchTerm} onkeyup={handleSearch} />
+                <template if:true={isLoading}>
+                    <div class="search-spinner">
+                        <lightning-spinner size="small" alternative-text="Searching...">
+                        </lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={showClear}>
+                    <button class="clear-btn" onclick={clearSearch}>✕</button>
+                </template>
+            </div>
+
+            <!-- No results -->
+            <template if:true={showNoResults}>
+                <div class="no-results">
+                    No results found for "{searchTerm}"
+                </div>
+            </template>
+
+            <!-- Results -->
+            <template if:true={showResults}>
+
+                <div class="results-summary">
+                    {searchResults.totalResults} result(s) found
+                </div>
+
+                <!-- Students -->
+                <template if:true={hasStudents}>
+                    <div class="result-group">
+                        <div class="group-header">
+                            <div class="group-title">Students</div>
+                            <span class="group-count">
+                                {searchResults.students.length}
+                            </span>
+                        </div>
+                        <template for:each={searchResults.students} for:item="student">
+                            <div key={student.recordId} class="result-card" data-id={student.recordId}
+                                data-type="Student__c" onclick={navigateToRecord}>
+                                <div class="result-avatar result-avatar-student">
+                                    {student.initials}
+                                </div>
+                                <div class="result-body">
+                                    <div class="result-name">{student.name}</div>
+                                    <div class="result-meta">
+                                        {student.studentId} &nbsp;|&nbsp;
+                                        {student.program}
+                                        &nbsp;|&nbsp; CGPA: {student.cgpa}
+                                    </div>
+                                    <div class="result-sub">{student.email}</div>
+                                </div>
+                                <div class="result-arrow">›</div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Teachers -->
+                <template if:true={hasTeachers}>
+                    <div class="result-group">
+                        <div class="group-header">
+                            <div class="group-title">Teachers</div>
+                            <span class="group-count">
+                                {searchResults.teachers.length}
+                            </span>
+                        </div>
+                        <template for:each={searchResults.teachers} for:item="teacher">
+                            <div key={teacher.recordId} class="result-card" data-id={teacher.recordId}
+                                data-type="Teacher__c" onclick={navigateToRecord}>
+                                <div class="result-avatar result-avatar-teacher">
+                                    {teacher.initials}
+                                </div>
+                                <div class="result-body">
+                                    <div class="result-name">{teacher.name}</div>
+                                    <div class="result-meta">
+                                        {teacher.teacherId} &nbsp;|&nbsp;
+                                        {teacher.department}
+                                    </div>
+                                    <div class="result-sub">{teacher.email}</div>
+                                </div>
+                                <div class="result-arrow">›</div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Courses -->
+                <template if:true={hasCourses}>
+                    <div class="result-group">
+                        <div class="group-header">
+                            <div class="group-title">Courses</div>
+                            <span class="group-count">
+                                {searchResults.courses.length}
+                            </span>
+                        </div>
+                        <template for:each={searchResults.courses} for:item="course">
+                            <div key={course.recordId} class="result-card" data-id={course.recordId}
+                                data-type="Course__c" onclick={navigateToRecord}>
+                                <div class="result-avatar result-avatar-course">
+                                    C
+                                </div>
+                                <div class="result-body">
+                                    <div class="result-name">{course.name}</div>
+                                    <div class="result-meta">
+                                        {course.courseCode}
+                                    </div>
+                                </div>
+                                <div class="result-arrow">›</div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
