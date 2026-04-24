@@ -1,0 +1,360 @@
+<apex:page controller="StudentReportCardController"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false">
+
+<html>
+<head>
+    <title>Student Report Card</title>
+    <style>
+        /* ── Reset ─────────────────────────── */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont,
+                'Segoe UI', sans-serif;
+               background: #F3F0ED; color: #1C1917;
+               padding: 24px; }
+
+        /* ── Page Wrapper ───────────────────── */
+        .page { max-width: 900px; margin: 0 auto;
+                background: #fff; border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+
+        /* ── Header ─────────────────────────── */
+        .header {
+            background: #1C1917;
+            padding: 28px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .header-left .institution {
+            font-size: 11px; color: #F97316;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+        .header-left .title {
+            font-size: 22px; font-weight: 700; color: #fff;
+        }
+        .header-left .subtitle {
+            font-size: 12px; color: #78716C; margin-top: 4px;
+        }
+        .header-right .date-label {
+            font-size: 11px; color: #78716C; text-align: right;
+        }
+        .header-right .date-value {
+            font-size: 13px; color: #F97316;
+            font-weight: 600; text-align: right;
+        }
+
+        /* ── Student Info ────────────────────── */
+        .student-info {
+            background: #FFFBF7;
+            border-bottom: 1px solid #F3F0ED;
+            padding: 20px 32px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .info-item .label {
+            font-size: 10px; color: #78716C;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 4px;
+        }
+        .info-item .value {
+            font-size: 14px; font-weight: 600; color: #1C1917;
+        }
+
+        /* ── Summary Stats ───────────────────── */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            border-bottom: 1px solid #F3F0ED;
+        }
+        .stat-box {
+            padding: 20px 32px;
+            text-align: center;
+            border-right: 1px solid #F3F0ED;
+        }
+        .stat-box:last-child { border-right: none; }
+        .stat-box .stat-val {
+            font-size: 36px; font-weight: 700; color: #D4500A;
+        }
+        .stat-box .stat-label {
+            font-size: 11px; color: #78716C;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        /* ── Section Title ───────────────────── */
+        .section-title {
+            padding: 16px 32px 8px;
+            font-size: 11px; font-weight: 600; color: #78716C;
+            text-transform: uppercase; letter-spacing: 0.07em;
+            background: #FAFAF9;
+            border-bottom: 1px solid #F3F0ED;
+            border-top: 1px solid #F3F0ED;
+        }
+
+        /* ── Course Block ────────────────────── */
+        .course-block { border-bottom: 1px solid #F3F0ED; }
+        .course-header {
+            padding: 12px 32px;
+            background: #1C1917;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .course-name   { font-size: 14px; font-weight: 600; color: #fff; }
+        .course-meta   { font-size: 11px; color: #F97316; margin-top: 2px; }
+        .course-avg    {
+            font-size: 18px; font-weight: 700; color: #F97316;
+        }
+        .course-grade  {
+            background: #D4500A; color: #fff;
+            border-radius: 6px; padding: 3px 10px;
+            font-size: 13px; font-weight: 700;
+            margin-left: 10px;
+        }
+
+        /* ── Assessment Table ────────────────── */
+        table {
+            width: 100%; border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            text-align: left; padding: 9px 32px;
+            font-size: 10px; font-weight: 600; color: #78716C;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            border-bottom: 1px solid #F3F0ED;
+            background: #FAFAF9;
+        }
+        td {
+            padding: 10px 32px;
+            border-bottom: 1px solid #F3F0ED;
+            color: #1C1917;
+        }
+        tr:last-child td { border-bottom: none; }
+
+        /* ── Grade Badge ─────────────────────── */
+        .grade-o  { background: #F0FDF4; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+        .grade-a  { background: #FDF0E8; color: #C2460A; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+        .grade-b  { background: #EFF6FF; color: #1D4ED8; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+        .grade-c  { background: #F1F5F9; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+        .grade-f  { background: #FEE2E2; color: #B91C1C; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+
+        /* ── Attendance Table ────────────────── */
+        .status-good { color: #15803D; font-weight: 600; }
+        .status-low  { color: #B91C1C; font-weight: 600; }
+
+        /* ── Footer ──────────────────────────── */
+        .footer {
+            background: #1C1917;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-text { font-size: 11px; color: #78716C; }
+        .footer-brand { font-size: 12px; color: #F97316; font-weight: 600; }
+
+        /* ── Print ───────────────────────────── */
+        @media print {
+            body { background: #fff; padding: 0; }
+            .page { box-shadow: none; border-radius: 0; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="institution">Student Management System</div>
+            <div class="title">Academic Report Card</div>
+            <div class="subtitle">Official Academic Performance Record</div>
+        </div>
+        <div class="header-right">
+            <div class="date-label">Generated On</div>
+            <div class="date-value">
+                <apex:outputText value="{!generatedDate}"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Info -->
+    <div class="student-info">
+        <div class="info-item">
+            <div class="label">Student Name</div>
+            <div class="value">
+                <apex:outputText value="{!student.Name}"/>
+            </div>
+        </div>
+        <div class="info-item">
+            <div class="label">Student ID</div>
+            <div class="value">
+                <apex:outputText value="{!student.Student_ID__c}"/>
+            </div>
+        </div>
+        <div class="info-item">
+            <div class="label">Program</div>
+            <div class="value">
+                <apex:outputText value="{!student.Program__c}"/>
+            </div>
+        </div>
+        <div class="info-item">
+            <div class="label">Email</div>
+            <div class="value">
+                <apex:outputText value="{!student.Student_Email__c}"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="summary-stats">
+        <div class="stat-box">
+            <div class="stat-val">
+                <apex:outputText value="{!overallCGPA}"/>
+            </div>
+            <div class="stat-label">Overall CGPA (out of 10)</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val">
+                <apex:outputText value="{!overallAttendance}"/>%
+            </div>
+            <div class="stat-label">Overall Attendance</div>
+        </div>
+    </div>
+
+    <!-- Grade Report -->
+    <div class="section-title">Academic Performance</div>
+
+    <apex:repeat value="{!grades}" var="course">
+        <div class="course-block">
+            <div class="course-header">
+                <div>
+                    <div class="course-name">
+                        <apex:outputText value="{!course.courseName}"/>
+                    </div>
+                    <div class="course-meta">
+                        Section: <apex:outputText value="{!course.sectionCode}"/>
+                        &nbsp;|&nbsp;
+                        <apex:outputText value="{!course.semester}"/>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;">
+                    <div class="course-avg">
+                        <apex:outputText value="{!course.courseAverage}"/>%
+                    </div>
+                    <div class="course-grade">
+                        <apex:outputText value="{!course.courseGrade}"/>
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Assessment</th>
+                        <th>Type</th>
+                        <th>Marks</th>
+                        <th>Percentage</th>
+                        <th>Weightage</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat value="{!course.assessments}" var="a">
+                        <tr>
+                            <td>
+                                <apex:outputText value="{!a.assessmentName}"/>
+                            </td>
+                            <td>
+                                <apex:outputText value="{!a.assessmentType}"/>
+                            </td>
+                            <td>
+                                <apex:outputText value="{!a.marksObtained}"/>
+                                /
+                                <apex:outputText value="{!a.maximumMarks}"/>
+                            </td>
+                            <td>
+                                <apex:outputText value="{!a.percentage}"/>%
+                            </td>
+                            <td>
+                                <apex:outputText value="{!a.weightage}"/>%
+                            </td>
+                            <td>
+                                <span class="grade-a">
+                                    <apex:outputText value="{!a.grade}"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+        </div>
+    </apex:repeat>
+
+    <!-- Attendance Summary -->
+    <div class="section-title">Attendance Summary</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Section</th>
+                <th>Semester</th>
+                <th>Attendance %</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <apex:repeat value="{!attendance}" var="att">
+                <tr>
+                    <td>
+                        <apex:outputText value="{!att.courseName}"/>
+                    </td>
+                    <td>
+                        <apex:outputText value="{!att.sectionCode}"/>
+                    </td>
+                    <td>
+                        <apex:outputText value="{!att.semester}"/>
+                    </td>
+                    <td>
+                        <apex:outputText value="{!att.attendancePct}"/>%
+                    </td>
+                    <td>
+                        <apex:outputText value="{!att.status}"/>
+                    </td>
+                </tr>
+            </apex:repeat>
+        </tbody>
+    </table>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-text">
+            This is an officially generated academic report.
+        </div>
+        <div class="footer-brand">Student Management System</div>
+    </div>
+
+</div>
+
+<!-- Print Button -->
+<div class="no-print" style="text-align:center;margin-top:20px;">
+    <button onclick="window.print()"
+            style="background:#D4500A;color:#fff;border:none;
+                   padding:10px 28px;border-radius:8px;
+                   font-size:14px;font-weight:600;cursor:pointer;">
+        Print / Save as PDF
+    </button>
+</div>
+
+</body>
+</html>
+
+</apex:page>
