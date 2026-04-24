@@ -1,0 +1,204 @@
+<!-- appHomeDashboard.html -->
+<template>
+    <div class="dashboard-wrapper">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading...">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-left">
+                    <div class="welcome-title">
+                        Student Management System
+                    </div>
+                    <div class="welcome-sub">
+                        Institution Overview — {today}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Institution Stats Grid -->
+            <div class="app-stat-grid">
+                <div class="app-stat">
+                    <div class="app-stat-value">{dashData.totalStudents}</div>
+                    <div class="app-stat-label">Total Students</div>
+                </div>
+                <div class="app-stat">
+                    <div class="app-stat-value">{dashData.totalTeachers}</div>
+                    <div class="app-stat-label">Teachers</div>
+                </div>
+                <div class="app-stat app-stat-accent">
+                    <div class="app-stat-value">{dashData.totalCourses}</div>
+                    <div class="app-stat-label">Courses</div>
+                </div>
+                <div class="app-stat app-stat-danger">
+                    <div class="app-stat-value">
+                        {dashData.lowAttendanceCount}
+                    </div>
+                    <div class="app-stat-label">Low Attendance</div>
+                </div>
+            </div>
+
+            <!-- Bottom Grid — 3 panels -->
+            <div class="bottom-grid">
+
+                <!-- Recent Enrollments -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Recent Enrollments</div>
+                        <span class="header-pill">Last 10</span>
+                    </div>
+                    <template if:true={hasEnrollments}>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Course</th>
+                                        <th>Section</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={dashData.recentEnrollments} for:item="enrollment">
+                                        <tr key={enrollment.junctionId}>
+                                            <td>
+                                                <div class="student-name">
+                                                    {enrollment.studentName}
+                                                </div>
+                                                <div class="student-code">
+                                                    {enrollment.studentCode}
+                                                </div>
+                                            </td>
+                                            <td>{enrollment.courseName}</td>
+                                            <td>
+                                                <span class="section-badge">
+                                                    {enrollment.sectionCode}
+                                                </span>
+                                            </td>
+                                            <td class="date-cell">
+                                                {enrollment.enrolledDate}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasEnrollments}>
+                        <div class="app-empty">No enrollments yet.</div>
+                    </template>
+                </div>
+
+                <!-- Low Attendance Alerts -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">
+                            Low Attendance Alerts
+                        </div>
+                        <span class="header-pill-danger">Below 75%</span>
+                    </div>
+                    <template if:true={hasAlerts}>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Course</th>
+                                        <th>Attendance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={dashData.lowAttendanceAlerts} for:item="alert">
+                                        <tr key={alert.junctionId}>
+                                            <td>
+                                                <div class="student-name">
+                                                    {alert.studentName}
+                                                </div>
+                                                <div class="student-code">
+                                                    {alert.studentCode}
+                                                </div>
+                                            </td>
+                                            <td>{alert.courseName}</td>
+                                            <td>
+                                                <div class="progress-bar-inline">
+                                                    <div class="app-progress-track">
+                                                        <div class="app-progress-fill" style={alert.attendanceStyle}>
+                                                        </div>
+                                                    </div>
+                                                    <span class="progress-label danger-text">
+                                                        {alert.attendancePct}%
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasAlerts}>
+                        <div class="app-empty app-empty-success">
+                            ✓ All students above 75% attendance
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Top Performing Students -->
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-title">Top Performers</div>
+                        <span class="header-pill">By CGPA</span>
+                    </div>
+                    <template if:true={hasTopStudents}>
+                        <div class="top-students-list">
+                            <template for:each={dashData.topStudents} for:item="student">
+                                <div key={student.studentId} class="top-student-row">
+                                    <div class="rank-badge">
+                                        #{student.rank}
+                                    </div>
+                                    <div class="student-avatar">
+                                        {student.initials}
+                                    </div>
+                                    <div class="top-student-info">
+                                        <div class="student-name">
+                                            {student.studentName}
+                                        </div>
+                                        <div class="student-code">
+                                            {student.studentCode} &nbsp;|&nbsp;
+                                            {student.program}
+                                        </div>
+                                        <div class="app-progress-track cgpa-bar">
+                                            <div class="app-progress-fill" style={student.cgpaStyle}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cgpa-score">
+                                        {student.cgpa}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hasTopStudents}>
+                        <div class="app-empty">
+                            No CGPA data available yet.
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+        </template>
+
+    </div>
+</template>
