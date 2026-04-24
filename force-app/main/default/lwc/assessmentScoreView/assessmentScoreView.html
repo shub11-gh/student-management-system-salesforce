@@ -1,3 +1,131 @@
+<!-- assessmentScoreView.html -->
 <template>
-    
+    <lightning-card title="Assessment Score" icon-name="standard:metrics">
+
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="app-error">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+                <!-- Student Hero Card -->
+                <div class="hero-card">
+                    <div class="hero-left">
+                        <div class="student-avatar">{studentInitials}</div>
+                        <div class="hero-info">
+                            <div class="hero-name">{scoreData.studentName}</div>
+                            <div class="hero-meta">
+                                {scoreData.studentCode} &nbsp;|&nbsp;
+                                CGPA: {scoreData.cgpa}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <template if:true={scoreData.isTopPerformer}>
+                            <span class="top-badge">Top Performer</span>
+                        </template>
+                        <template if:true={scoreData.isAboveAverage}>
+                            <template if:false={scoreData.isTopPerformer}>
+                                <span class="above-avg-badge">Above Average</span>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Score Summary Card -->
+                <div class="score-summary-card">
+                    <div class="score-main">
+                        <div class="score-marks">
+                            {scoreData.marksObtained}
+                            <span class="score-max">/ {scoreData.maximumMarks}</span>
+                        </div>
+                        <div class="score-pct">{scoreData.percentage}%</div>
+                    </div>
+                    <div class="score-right">
+                        <span class={scoreData.gradeClass}>{scoreData.grade}</span>
+                        <div class="rank-info">
+                            Rank #{scoreData.rank} of {scoreData.totalStudents}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Score vs Class Average Bar -->
+                <div class="comparison-card">
+                    <div class="comparison-header">
+                        <span class="comparison-title">Score Comparison</span>
+                    </div>
+
+                    <!-- Student Score Bar -->
+                    <div class="bar-row">
+                        <span class="bar-row-label">Your Score</span>
+                        <div class="app-progress-track">
+                            <div class="app-progress-fill"
+                                 style={scoreData.scoreStyle}>
+                            </div>
+                        </div>
+                        <span class="bar-row-value">{scoreData.percentage}%</span>
+                    </div>
+
+                    <!-- Class Average Bar -->
+                    <div class="bar-row">
+                        <span class="bar-row-label">Class Avg</span>
+                        <div class="app-progress-track">
+                            <div class="app-progress-fill"
+                                 style={scoreData.classAvgStyle}>
+                            </div>
+                        </div>
+                        <span class="bar-row-value">{scoreData.classAvgPct}%</span>
+                    </div>
+
+                    <div class="comparison-footer">
+                        Class average: {scoreData.classAverage} /
+                        {scoreData.maximumMarks} marks
+                    </div>
+                </div>
+
+                <!-- Assessment Info Banner -->
+                <div class="info-banner">
+                    <div class="info-item">
+                        <span class="info-label">Course</span>
+                        <span class="info-value">{scoreData.courseName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Assessment</span>
+                        <span class="info-value">{scoreData.assessmentName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Type</span>
+                        <span class="info-value">{scoreData.assessmentType}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Weightage</span>
+                        <span class="info-value">{scoreData.weightage}%</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date</span>
+                        <span class="info-value">{scoreData.assessmentDate}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Weighted Score</span>
+                        <span class="info-value">{scoreData.weightedScore}</span>
+                    </div>
+                </div>
+
+                <!-- Remarks -->
+                <div class="remarks-card">
+                    <div class="remarks-label">Teacher Remarks</div>
+                    <div class="remarks-value">{scoreData.remarks}</div>
+                </div>
+
+            </div>
+        </template>
+
+    </lightning-card>
 </template>

@@ -4,7 +4,8 @@
 
         <template if:true={isLoading}>
             <div class="slds-align_absolute-center slds-p-around_large">
-                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+                <lightning-spinner alternative-text="Loading...">
+                </lightning-spinner>
             </div>
         </template>
 
@@ -13,7 +14,9 @@
         </template>
 
         <template if:true={isEmpty}>
-            <div class="app-empty">No attendance records found for this student.</div>
+            <div class="app-empty">
+                No attendance records found for this student.
+            </div>
         </template>
 
         <template if:true={hasData}>
@@ -46,17 +49,24 @@
                         <!-- Header -->
                         <div class="app-card-header">
                             <div>
-                                <div class="app-card-title">{course.courseName}</div>
+                                <div class="app-card-title">
+                                    {course.courseName}
+                                </div>
                                 <div class="app-card-subtitle">
-                                    Section: {course.sectionCode} &nbsp;|&nbsp; {course.semester}
+                                    Section: {course.sectionCode}
+                                    &nbsp;|&nbsp; {course.semester}
                                 </div>
                             </div>
                             <div class="header-right">
                                 <template if:true={course.isBelowThreshold}>
-                                    <span class="app-badge-warning">Below 75%</span>
+                                    <span class="app-badge-warning">
+                                        Below 75%
+                                    </span>
                                 </template>
                                 <div class="app-ring">
-                                    <span class="app-ring-value">{course.attendancePercentage}%</span>
+                                    <span class="app-ring-value">
+                                        {course.attendancePercentage}%
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -66,65 +76,73 @@
                             <div class="app-breakdown-item">
                                 <span class="app-dot app-dot-present"></span>
                                 <span class="app-breakdown-label">Present</span>
-                                <span class="app-breakdown-count">{course.presentCount}</span>
+                                <span class="app-breakdown-count">
+                                    {course.presentCount}
+                                </span>
                             </div>
                             <div class="app-breakdown-item">
                                 <span class="app-dot app-dot-absent"></span>
                                 <span class="app-breakdown-label">Absent</span>
-                                <span class="app-breakdown-count">{course.absentCount}</span>
+                                <span class="app-breakdown-count">
+                                    {course.absentCount}
+                                </span>
                             </div>
                             <div class="app-breakdown-item">
                                 <span class="app-dot app-dot-late"></span>
                                 <span class="app-breakdown-label">Late</span>
-                                <span class="app-breakdown-count">{course.lateCount}</span>
+                                <span class="app-breakdown-count">
+                                    {course.lateCount}
+                                </span>
                             </div>
                             <div class="app-breakdown-item">
                                 <span class="app-dot app-dot-excused"></span>
                                 <span class="app-breakdown-label">Excused</span>
-                                <span class="app-breakdown-count">{course.excusedCount}</span>
+                                <span class="app-breakdown-count">
+                                    {course.excusedCount}
+                                </span>
                             </div>
                             <div class="app-breakdown-item">
                                 <span class="app-breakdown-label">Total</span>
-                                <span class="app-breakdown-count">{course.totalSessions}</span>
+                                <span class="app-breakdown-count">
+                                    {course.totalSessions}
+                                </span>
                             </div>
                         </div>
 
                         <!-- Progress Bar -->
                         <div class="app-progress-track">
-                            <div class="app-progress-fill" style={course.barStyle}></div>
+                            <div class="app-progress-fill" style={course.barStyle}>
+                            </div>
                         </div>
 
                         <!-- Session Table -->
-                        <div class="app-table-wrapper"></div>
-                        <table class="app-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Topics Covered</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template for:each={course.sessions} for:item="session">
-                                    <tr key={session.sessionDate}>
-                                        <td>{session.sessionDate}</td>
-                                        <td>{session.topicsCovered}</td>
-                                        <td>
-                                            <span class={session.statusClass}>
-                                                {session.status}
-                                            </span>
-                                        </td>
+                        <div class="app-table-wrapper">
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Topics Covered</th>
+                                        <th>Status</th>
                                     </tr>
-                                </template>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <template for:each={course.sessions} for:item="session">
+                                        <tr key={session.sessionDate}>
+                                            <td>{session.sessionDate}</td>
+                                            <td>{session.topicsCovered}</td>
+                                            <td>
+                                                <span class={session.statusClass}>
+                                                    {session.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
+                </template>
             </div>
         </template>
-
-        </div>
-</template>
-
-</lightning-card>
+    </lightning-card>
 </template>

@@ -1,1 +1,131 @@
-/* assessmentScoreView styles */
+/* assessmentScoreView.css */
+
+/* ── Hero Card ───────────────────────────────── */
+.hero-card {
+    background: #1C1917;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.hero-left  { display: flex; align-items: center; gap: 14px; }
+.hero-right { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex-shrink: 0; }
+.student-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: #D4500A;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: #ffffff; flex-shrink: 0;
+}
+.hero-name { font-size: 16px; font-weight: 600; color: #ffffff; }
+.hero-meta { font-size: 12px; color: #78716C; margin-top: 3px; }
+
+/* ── Performer Badges ────────────────────────── */
+.top-badge      { background: #D4500A; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.above-avg-badge { background: #15803D; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+/* ── Score Summary Card ──────────────────────── */
+.score-summary-card {
+    background: #1C1917;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.score-main  { display: flex; flex-direction: column; gap: 4px; }
+.score-marks { font-size: 42px; font-weight: 700; color: #F97316; line-height: 1; }
+.score-max   { font-size: 20px; color: #78716C; font-weight: 400; }
+.score-pct   { font-size: 16px; color: #A8A29E; margin-top: 4px; }
+.score-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.rank-info   { font-size: 12px; color: #78716C; }
+
+/* ── Grade Badges ────────────────────────────── */
+.grade-high { background: #FDF0E8; color: #C2460A; padding: 6px 18px; border-radius: 20px; font-size: 18px; font-weight: 700; }
+.grade-mid  { background: #EFF6FF; color: #1D4ED8; padding: 6px 18px; border-radius: 20px; font-size: 18px; font-weight: 700; }
+.grade-low  { background: #FEE2E2; color: #B91C1C; padding: 6px 18px; border-radius: 20px; font-size: 18px; font-weight: 700; }
+
+/* ── Comparison Card ─────────────────────────── */
+.comparison-card {
+    background: #1C1917;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+}
+.comparison-header { margin-bottom: 14px; }
+.comparison-title  { font-size: 12px; color: #A8A29E; text-transform: uppercase; letter-spacing: 0.06em; }
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.bar-row:last-of-type { margin-bottom: 0; }
+.bar-row-label { font-size: 12px; color: #78716C; width: 70px; flex-shrink: 0; }
+.bar-row-value { font-size: 12px; color: #F97316; font-weight: 600; min-width: 38px; text-align: right; }
+.app-progress-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.app-progress-fill {
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+.comparison-footer {
+    font-size: 11px;
+    color: #78716C;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Info Banner ─────────────────────────────── */
+.info-banner {
+    display: flex;
+    flex-wrap: wrap;
+    background: #1C1917;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+.info-item {
+    display: flex; flex-direction: column;
+    padding: 12px 20px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    flex: 1; min-width: 100px;
+}
+.info-item:last-child { border-right: none; }
+.info-label { font-size: 10px; color: #78716C; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.info-value { font-size: 13px; font-weight: 600; color: #F97316; }
+
+/* ── Remarks Card ────────────────────────────── */
+.remarks-card {
+    background: #FAFAF9;
+    border: 1px solid #F3F0ED;
+    border-radius: 10px;
+    padding: 14px 18px;
+}
+.remarks-label { font-size: 10px; color: #78716C; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.remarks-value { font-size: 14px; color: #1C1917; line-height: 1.6; }
+
+/* ── Error ───────────────────────────────────── */
+.app-error { background: #FEE2E2; border-radius: 8px; padding: 12px 16px; color: #B91C1C; font-size: 13px; margin: 12px; }
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 480px) {
+    .hero-card          { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .hero-right         { align-items: flex-start; flex-direction: row; }
+    .score-summary-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .score-right        { align-items: flex-start; flex-direction: row; gap: 12px; }
+    .score-marks        { font-size: 34px; }
+    .bar-row-label      { width: 60px; font-size: 11px; }
+    .info-banner        { flex-direction: column; }
+    .info-item          { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .info-item:last-child { border-bottom: none; }
+}
