@@ -174,7 +174,7 @@
     <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <div class="institution">Student Management System</div>
+            <div class="institution">Student Lifecycle Management</div>
             <div class="title">Academic Report Card</div>
             <div class="subtitle">Official Academic Performance Record</div>
         </div>
@@ -339,7 +339,7 @@
         <div class="footer-text">
             This is an officially generated academic report.
         </div>
-        <div class="footer-brand">Student Management System</div>
+        <div class="footer-brand">Student Lifecycle Management</div>
     </div>
 
 </div>
